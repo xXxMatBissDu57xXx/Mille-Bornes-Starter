@@ -2,12 +2,50 @@ Lien vers l'UML:
 http://www.plantuml.com/plantuml/uml/SoWkIImgAStDuKhEIImkLd1EB4gfhkLApIlD1RD3AWjIWNo8P41HQa5YKMe0K4SbND2bAB4SpWdFBCb8GHO8o4ciJ2s2Sr6r1fNcf1O3UGwfUIb09m00
 
 @startuml
-class Card{}
-enum CardType{}
-class PrepareParty{}
-class Draw{}
-class Withdraw{}
-class Player{}
-class Party{}
-class Rules{}
+skinparam linetype ortho
+
+abstract class Carte{}
+class Botte{}
+class Attaque{}
+class Parade{}
+class Borne{}
+class Memo{}
+
+abstract class Pile{}
+class MainJoueur{}
+class PileVitesse{}
+class PileBataille{}
+class PileBorne{}
+class PileBotte{}
+class PileBotteCoupFourre{}
+
+class PreparerPartie{}
+class Pioche{}
+class Defausse{}
+class Joueur{}
+class Partie{}
+class Deck{}
+
+Carte <|-- Botte
+Carte <|-- Attaque
+Carte <|-- Parade
+Carte <|-- Borne
+Carte <|-- Memo
+
+Pile <|-- PileVitesse
+Pile <|-- PileBataille
+Pile <|-- PileBorne
+Pile <|-- PileBotte
+Pile <|-- PileBotteCoupFourre
+Joueur <-- MainJoueur
+Joueur <-- Pile
+
+Partie <-- PreparerPartie
+Partie <-- Pioche
+Partie <-- Defausse
+Partie <-- Joueur
+
+Deck <-- Carte
+Partie <-- Deck
+
 @enduml
