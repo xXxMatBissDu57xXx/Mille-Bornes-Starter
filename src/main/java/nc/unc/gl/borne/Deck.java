@@ -9,7 +9,7 @@ import nc.unc.gl.borne.cartes.bottes.Prioritaire;
 
 public class Deck {
     private Pile pileBataille;
-    private int km;
+    public int km;
     private Pile pileVitesse;
     private Joueur joueur;
     private ArrayList<Botte> bottes;
@@ -24,32 +24,11 @@ public class Deck {
         this.joueur = joueur;
     }
 
-    public String ditPourquoiPeutPasAvancer() {
-        Carte bataille = this.getBataille();
-        if (bataille == null && getBottes().stream().noneMatch(c -> c instanceof Prioritaire)) {
-            return "Vous ne pouvez pas avancer car il faut un feu vert pour commencer.";
-        }
-        if (bataille instanceof Attaque) {
-            return "Vous ne pouvez pas avancer car vous êtes bloqué par l'attaque "+bataille;
-        }
-        return null;
-    }
-
     public int getDistance() {
         return km;
     }
 
     public void ajouteDistance(int km) throws IllegalStateException {
-        if (isLimiteVitesse() && km > 50) {
-            throw new IllegalStateException("Vous êtes limité à 50 km/h.");
-        }
-        if (this.km + km > 1000) {
-            throw new IllegalStateException("Il n'est pas possible de dépasser les 1000 km.");
-        }
-        String msgErreur = ditPourquoiPeutPasAvancer();
-        if (msgErreur != null) {
-            throw new IllegalStateException(msgErreur);
-        }
         this.km += km;
     }
 
@@ -69,10 +48,9 @@ public class Deck {
             return null;
         }
         return pileVitesse.peek();
-
     }
 
-    public boolean isLimiteVitesse(){
+    public boolean hasLimiteVitesse(){
         if(!pileVitesse.isEmpty()) {
             return (getLimiteVitesse() instanceof Attaque);
         }
@@ -103,21 +81,21 @@ public class Deck {
         main.add(carte);
     }
 
-    public void defausseBataille(Jeu jeu){
-        jeu.defausse(pileBataille.pop());
+    public void defausserCarteOnTopOfBataille(Jeu jeu){
+        jeu.defausserCarte(pileBataille.pop());
     }
 
-    public void defausseVitesse(Jeu jeu){
-        jeu.defausse(pileVitesse.pop());
+    public void defausserCarteOnTopOfVitesse(Jeu jeu){
+        jeu.defausserCarte(pileVitesse.pop());
     }
 
-    public void defausseCarte(Jeu jeu, int numero) {
-        jeu.defausse(main.get(numero));
+    public void defausseCarteDeMain(Jeu jeu, int numero) {
+        jeu.defausserCarte(main.get(numero));
         main.remove(numero);
     }
 
     public void attaque(Jeu jeu, Attaque carte) throws IllegalStateException {
-        carte.joue(jeu, this);
+        carte.jouerCarte(jeu, this);
     }
 
     public void joueCarte(Jeu jeu, int numero) throws IllegalStateException {
@@ -126,11 +104,11 @@ public class Deck {
             throw new IllegalStateException("La carte est une attaque donc il faut spécifier un adversaire.");
         }
 
-        carte.joue(jeu, this);
+        carte.jouerCarte(jeu, this);
         main.remove(numero);
     }
 
-    public void joueCarte(Jeu jeu, int numero, Joueur adversaire) throws IllegalStateException {
+    public void joueCarteAttaque(Jeu jeu, int numero, Joueur adversaire) throws IllegalStateException {
         Carte carte = main.get(numero);
         if (!(carte instanceof Attaque)) {
             throw new IllegalStateException("La carte n'est pas une attaque donc il ne faut pas spécifier d'adversaire.");
@@ -145,7 +123,7 @@ public class Deck {
 
     public String toString() {
         StringBuilder txt = new StringBuilder(km + " km");
-        if (isLimiteVitesse()) {
+        if (hasLimiteVitesse()) {
             txt.append(", limité à 50 km/h");
         }
         if (!bottes.isEmpty()) {

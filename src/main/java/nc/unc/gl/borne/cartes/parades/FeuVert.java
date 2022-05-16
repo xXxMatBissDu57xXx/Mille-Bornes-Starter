@@ -15,9 +15,10 @@ public class FeuVert  extends Parade {
         return contre;
     }
 
-    public void joue(Jeu jeu, Deck deck) throws IllegalStateException {
-        if (deck.getBataille() == null) { // la pile est vide, il faut un FeuVert pour commencer
-            if (deck.getBottes().stream().anyMatch(c -> c instanceof Prioritaire)) {
+    public void jouerCarte(Jeu jeu, Deck deck) throws IllegalStateException {
+        if (deck.getBataille() == null) {
+            boolean isJoueurPossedePrioritaire = deck.getBottes().stream().anyMatch(c -> c instanceof Prioritaire);
+            if (isJoueurPossedePrioritaire) {
                 throw new IllegalStateException("Pas besoin de commencer par un feu vert si vous êtes véhicule prioritaire !");
             }
             deck.setBataille(this);

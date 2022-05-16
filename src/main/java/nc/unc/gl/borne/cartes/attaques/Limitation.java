@@ -11,22 +11,24 @@ public class Limitation  extends Attaque {
 
 
 
-    public void joue(Jeu jeu, Deck deck) throws IllegalStateException {
-        if (deck.isLimiteVitesse()) {
+    public void jouerCarte(Jeu jeu, Deck deck) throws IllegalStateException {
+        if (deck.hasLimiteVitesse()) {
             throw new IllegalStateException("La vitesse de ce joueur est déjà limitée.");
         }
         else {
             deck.setLimiteVitesse(this);
         }
         for (Botte botte : deck.getBottes()) {
-            if (botte.getClass() == Prioritaire.class) {
+            boolean deckHasPrioritaire = botte.getClass() == Prioritaire.class;
+            if (deckHasPrioritaire) {
                 throw new IllegalStateException("Impossible d'appliquer l'attaque " + this + " sur ce joueur car il est " + botte + ".");
             }
         }
         for (Carte carte : deck.getMain()) {
-            if (carte instanceof Botte && carte.getClass() == Prioritaire.class) {
+            boolean hasPrioritaireInHand = carte instanceof Botte && carte.getClass() == Prioritaire.class;
+            if (hasPrioritaireInHand) {
                 deck.choisitCoupFourre(jeu, this, deck.getMain().indexOf(carte));
-                break; // Désole pour le break mais sinon c'est ConcurrentModificationException
+                break;
             }
         }
     }

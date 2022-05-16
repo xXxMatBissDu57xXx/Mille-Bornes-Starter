@@ -25,7 +25,7 @@ public class Jeu {
         this.joueurs.addAll(Arrays.asList(joueurs));
     }
 
-    public void defausse(Carte carte) {
+    public void defausserCarte(Carte carte) {
         defausse.deposer(carte);
     }
 
@@ -37,7 +37,7 @@ public class Jeu {
         return this.joueurCourant;
     }
 
-    public Carte pioche() {
+    public Carte piocherCarte() {
         return pioche.piocher();
     }
 
@@ -67,7 +67,7 @@ public class Jeu {
             return true;
         }
         for (Joueur j: joueurs) {
-            if (j.getDistance() == 300) {
+            if (j.getDistance() == 1000) {
                 return true;
             }
         }
@@ -95,7 +95,7 @@ public class Jeu {
         if (!estPartieFinie()) {
             this.joueurCourant = prochainJoueur;
             this.prochainJoueur = joueurCourant.getProchainJoueur();
-            joueurCourant.prendCarte(pioche());
+            joueurCourant.prendCarte(piocherCarte());
         }
     }
 
@@ -125,7 +125,7 @@ public class Jeu {
             }
         }
 
-        System.out.print("----------------------------------- fin de tour -----------------------------------\n\n");
+        System.out.print("______________________________ fin de tour _______________________________\n\n");
 
         return estPartieFinie();
     }
@@ -134,12 +134,16 @@ public class Jeu {
         StringBuilder txt = new StringBuilder();
         for (Joueur j: joueurs) {
             if (j == joueurCourant) {
-                txt.append("> ");
+                txt.append(">> ");
+                txt.append(j.toString());
+                txt.append(" <<");
             } else {
-                txt.append("  ");
+                txt.append(j.toString());
             }
-            txt.append(j.toString()).append("\n\n");
+            txt.append("\n");
+
         }
+        txt.append("\n");
         txt.append(this.getNbCartesPioche()).append(" carte");
         if (this.getNbCartesPioche() > 1) {
             txt.append("s");

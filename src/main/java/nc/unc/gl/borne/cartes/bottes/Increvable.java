@@ -14,10 +14,10 @@ public class Increvable  extends Botte {
         return contre;
     }
 
-    public void joue(Jeu jeu, Deck deck){
+    public void jouerCarte(Jeu jeu, Deck deck){
         deck.addBotte(this);
         if (deck.getBataille() instanceof Crevaison){
-            deck.defausseBataille(jeu);
+            deck.defausserCarteOnTopOfBataille(jeu);
         }
         jeu.setProchainJoueur(jeu.getJoueurCourant());
     }

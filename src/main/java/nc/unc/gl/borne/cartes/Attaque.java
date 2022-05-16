@@ -11,21 +11,25 @@ public abstract class Attaque extends Carte {
     protected Class<Botte> botteAssocie;
 
 
-    public void joue(Jeu jeu, Deck deck) throws IllegalStateException {
-        if (deck.getBataille() == null && deck.getBottes().stream().noneMatch(c -> c instanceof Prioritaire)) {
+    public void jouerCarte(Jeu jeu, Deck deck) throws IllegalStateException {
+        boolean isBatailleJoueurVide = deck.getBataille() == null;
+        boolean nEstPasPrioritaire = deck.getBottes().stream().noneMatch(c -> c instanceof Prioritaire);
+        if (isBatailleJoueurVide && nEstPasPrioritaire) {
             throw new IllegalStateException("Impossible de poser une attaque sur un joueur qui n'a pas encore posé de Feu Vert.");
         }
         if (deck.getBataille() instanceof Attaque) {
             throw new IllegalStateException("Ce joueur est déjà bloqué par une attaque.");
         }
         for (Botte botte : deck.getBottes()) {
-            if (this.getClass() == botte.getContre()) {
+            boolean hasBotteContre = this.getClass() == botte.getContre();
+            if (hasBotteContre) {
                 throw new IllegalStateException("Impossible d'appliquer l'attaque " + this + " sur ce joueur car il est " + botte + ".");
             }
         }
         deck.setBataille(this);
         for (Carte carte : deck.getMain()) {
-            if (carte instanceof Botte && this.getClass() == ((Botte) carte).getContre()) {
+            boolean hasBotteContreInHand = carte instanceof Botte && this.getClass() == ((Botte) carte).getContre();
+            if (hasBotteContreInHand) {
                 deck.choisitCoupFourre(jeu, this, deck.getMain().indexOf(carte));
                 break;
             }

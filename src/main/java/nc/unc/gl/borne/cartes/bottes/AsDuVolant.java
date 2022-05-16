@@ -14,10 +14,10 @@ public class AsDuVolant extends Botte {
         return contre;
     }
 
-    public void joue(Jeu jeu, Deck deck){
+    public void jouerCarte(Jeu jeu, Deck deck){
         deck.addBotte(this);
         if (deck.getBataille() instanceof Accident){
-            deck.defausseBataille(jeu);
+            deck.defausserCarteOnTopOfBataille(jeu);
         }
         jeu.setProchainJoueur(jeu.getJoueurCourant());
     }

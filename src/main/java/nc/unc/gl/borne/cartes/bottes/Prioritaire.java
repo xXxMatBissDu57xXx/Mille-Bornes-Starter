@@ -15,13 +15,13 @@ public class Prioritaire extends Botte {
         return contre;
     }
 
-    public void joue(Jeu jeu, Deck deck){
+    public void jouerCarte(Jeu jeu, Deck deck){
         deck.addBotte(this);
         if (deck.getBataille() instanceof FeuRouge){
-            deck.defausseBataille(jeu);
+            deck.defausserCarteOnTopOfBataille(jeu);
         }
         if (deck.getLimiteVitesse() instanceof Limitation){
-            deck.defausseVitesse(jeu);
+            deck.defausserCarteOnTopOfVitesse(jeu);
         }
         jeu.setProchainJoueur(jeu.getJoueurCourant());
     }

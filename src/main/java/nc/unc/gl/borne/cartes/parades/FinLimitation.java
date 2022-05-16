@@ -14,8 +14,8 @@ public class FinLimitation  extends Parade {
         return contre;
     }
 
-    public void joue(Jeu jeu, Deck deck) throws IllegalStateException {
-        if(deck.isLimiteVitesse()) {
+    public void jouerCarte(Jeu jeu, Deck deck) throws IllegalStateException {
+        if(deck.hasLimiteVitesse()) {
             deck.setLimiteVitesse(this);
         }
         else {

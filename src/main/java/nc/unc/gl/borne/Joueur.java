@@ -57,7 +57,7 @@ public class Joueur {
         for (int i = 0; i < main.size(); i++) {
             System.out.println((i+1)+" : "+main.get(i));
         }
-        System.out.println("(Entrez -n pour défausser la carte n.)");
+        System.out.println("(Rajoutez '-' devant le numéro de la carte pour la défausser)");
         System.out.print("> ");
         return this.scanInt();
     }
@@ -95,22 +95,18 @@ public class Joueur {
     public void joueCarte(Jeu jeu, int numero) throws IllegalStateException {
         Carte carte = getMain().get(numero);
         if (carte instanceof Attaque) {
-            deck.joueCarte(jeu, numero, choisitAdversaire((Attaque) carte));
+            deck.joueCarteAttaque(jeu, numero, choisitAdversaire((Attaque) carte));
         } else {
             deck.joueCarte(jeu, numero);
         }
     }
 
     public void defausseCarte(Jeu jeu, int numero) {
-        deck.defausseCarte(jeu, numero);
+        deck.defausseCarteDeMain(jeu, numero);
     }
 
     public void attaque(Jeu jeu, Attaque carte) throws IllegalStateException {
         deck.attaque(jeu, carte);
-    }
-
-    public void joueCarte(Jeu jeu, int numero, Joueur adversaire) throws IllegalStateException {
-        deck.joueCarte(jeu, numero, adversaire);
     }
 
     public void choisitCoupFourre(Jeu jeu, Attaque attaque, int numero) throws IllegalStateException {
@@ -122,15 +118,15 @@ public class Joueur {
         String choix = "";
         System.out.println("\n"+nom+", on t'attaque avec "+attaque+" mais tu as "+carte+". Veux-tu poser ta botte maintenant ?");
 
-        while (!(choix.toUpperCase().equals("OUI") || choix.toUpperCase().equals("NON"))) {
+        while (!(choix.equalsIgnoreCase("OUI") || choix.equalsIgnoreCase("NON"))) {
             System.out.print("(oui/non) > ");
             choix = input.next();
         }
 
-        if (choix.toUpperCase().equals("OUI")) {
+        if (choix.equalsIgnoreCase("OUI")) {
             System.out.println("Coup fourré !");
             joueCarte(jeu, numero);
-            prendCarte(jeu.pioche());
+            prendCarte(jeu.piocherCarte());
             jeu.setProchainJoueur(this);
         }
     }

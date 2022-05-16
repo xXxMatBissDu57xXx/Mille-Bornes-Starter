@@ -14,10 +14,10 @@ public class CamionCiterne  extends Botte {
         return contre;
     }
 
-    public void joue(Jeu jeu, Deck deck){
+    public void jouerCarte(Jeu jeu, Deck deck){
         deck.addBotte(this);
         if (deck.getBataille() instanceof Panne){
-            deck.defausseBataille(jeu);
+            deck.defausserCarteOnTopOfBataille(jeu);
         }
         jeu.setProchainJoueur(jeu.getJoueurCourant());
     }
