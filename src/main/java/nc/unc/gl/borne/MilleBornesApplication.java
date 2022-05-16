@@ -7,6 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class MilleBornesApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(MilleBornesApplication.class, args);
+        //SpringApplication.run(MilleBornesApplication.class, args);
+        Application app = new Application();
+        app.jouer();
     }
 }

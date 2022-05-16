@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @RequiredArgsConstructor
 public class MilleBornesTests {
-    private final ApplicationContext springContext;
+    private ApplicationContext springContext;
 
     @Test
     void spring_context_should_start() {
