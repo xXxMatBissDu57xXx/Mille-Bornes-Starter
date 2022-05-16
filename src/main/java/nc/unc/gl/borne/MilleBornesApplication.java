@@ -1,13 +1,16 @@
 package nc.unc.gl.borne;
 
+import com.vaadin.flow.component.page.AppShellConfigurator;
+import com.vaadin.flow.component.page.Push;
+import com.vaadin.flow.shared.communication.PushMode;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MilleBornesApplication {
+@Push(PushMode.AUTOMATIC)
+public class MilleBornesApplication implements AppShellConfigurator {
 
     public static void main(String[] args) {
-        Application app = new Application();
-        app.jouer();
+        SpringApplication.run(MilleBornesApplication.class, args);
     }
 }
